@@ -1,0 +1,44 @@
+// Import dependencies
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+require('dotenv/config');
+
+// Create app
+const app = express();
+
+//Middleware
+app.use(cors());
+app.use(bodyParser.json());
+
+// Invoke routes
+const postRoute = require('./routers/posts');
+app.use('/posts', postRoute);
+
+const userRoute = require('./routers/users');
+app.use('/users', userRoute);
+
+// Home Route
+app.get('/', (req, res) => {
+    res.send("We are on home");
+});
+
+/**
+ * Connect to DB
+ */
+mongoose.connect(
+    "mongodb://localhost/testDB", {
+        useNewUrlParser: true
+    },
+    (err) => {
+        if (err) {
+            console.log(err.message);
+        } else {
+            console.log('connected to DB!');
+        }
+    }
+);
+
+// Start Listning
+app.listen(8080, () => console.log("Server is running"));

@@ -1,0 +1,7 @@
+applications:
+  - name: restapp
+    buildpacks:
+      - nodejs_buildpack
+    memory: 256M
+    command: node app.js
+    random-route: true
