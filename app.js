@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
  * Connect to DB
  */
 mongoose.connect(
-    "mongodb://localhost/testDB", {
+    process.env.DB_CONNECTION, {
         useNewUrlParser: true
     },
     (err) => {
