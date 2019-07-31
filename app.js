@@ -19,6 +19,9 @@ app.use('/posts', postRoute);
 const userRoute = require('./routers/users');
 app.use('/users', userRoute);
 
+const partnerRoute = require('./routers/partner');
+app.use('/partners', partnerRoute);
+
 // Home Route
 app.get('/', (req, res) => {
     res.send("We are on home");
