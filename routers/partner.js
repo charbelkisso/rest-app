@@ -1,27 +1,46 @@
-const businessPartner = require('@sap/cloud-sdk-vdm-business-partner-service');
+const partnerService = require('../Services/PartnerService');
 const express = require('express');
 const router = express.Router();
 
-const service = function () {
-    return businessPartner.BusinessPartner;
-}
-
 router.get('/', async function (req, res) {
+
     try {
-        var partners = await service().requestBuilder()
+        var partners = await partnerService.service.requestBuilder()
             .getAll()
-            .filter(service().BUSINESS_PARTNER_CATEGORY = 1)
-            .select(service().BUSINESS_PARTNER, service().LAST_NAME, service().FIRST_NAME)
+            .filter(partnerService.type())
+            .select(
+                partnerService.service.BUSINESS_PARTNER,
+                partnerService.service.LAST_NAME,
+                partnerService.service.FIRST_NAME
+            )
             .execute({
-                destinationName: "ErpQueryEndpoint"
+                destinationName: partnerService.destinationName
             });
         res.status(200).json(partners);
     } catch (error) {
+        res.status(500).json(error.message);
+    }
+});
+
+router.get('/:partnerId', async (req, res) => {
+
+    try {
+        var partner = await partnerService.service.requestBuilder()
+            .getByKey(req.params.partnerId)
+            .select(
+                partnerService.service.BUSINESS_PARTNER,
+                partnerService.service.LAST_NAME,
+                partnerService.service.FIRST_NAME
+            )
+            .execute({
+                destinationName: partnerService.destinationName
+            });
+        res.status(200).json(partner);
+    } catch (error) {
         res.status(500).json({
             message: error.message
-        })
+        });
     }
-
-})
+});
 
 module.exports = router;
