@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const cors = require('cors');
 require('dotenv/config');
 
@@ -24,7 +25,7 @@ app.use('/partners', partnerRoute);
 
 // Home Route
 app.get('/', (req, res) => {
-    res.send("We are on home");
+    res.sendFile(path.resolve(__dirname, './index.html'));
 });
 
 /**
