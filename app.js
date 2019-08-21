@@ -25,7 +25,7 @@ app.use('/partners', partnerRoute);
 
 // Home Route
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './index.html'));
+    res.sendFile(path.resolve(__dirname, './webapp/index.html'));
 });
 
 /**
